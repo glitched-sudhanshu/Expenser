@@ -8,11 +8,12 @@ class AppTheme {
       colorScheme: ColorScheme.fromSwatch().copyWith(
         secondary: Colors.amber,
         primary: Colors.purple,
+        error: Colors.redAccent
       ),
       fontFamily: 'Quicksand',
       textTheme: ThemeData.light().textTheme.copyWith(
             titleMedium: TextStyle(
-              fontFamily: 'OpenSans',
+              fontFamily: 'Quicksand',
               fontWeight: FontWeight.bold,
               fontSize: 18,
             ),
