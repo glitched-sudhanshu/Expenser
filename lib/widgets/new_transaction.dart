@@ -1,4 +1,4 @@
-import 'package:expense_app/Util/StringUtil.dart';
+import 'package:expense_app/utils/StringUtil.dart';
 import 'package:flutter/material.dart';
 
 class NewTransaction extends StatefulWidget {
@@ -14,11 +14,11 @@ class _NewTransactionState extends State<NewTransaction> {
   final titleInput = TextEditingController();
   final amountInput = TextEditingController();
 
-  void _submitTransaction(){
+  void _submitTransaction() {
     final enteredTitle = titleInput.text;
     final enteredAmount = double.parse(amountInput.text);
 
-    if(enteredTitle.isEmpty || enteredAmount<0) return;
+    if (enteredTitle.isEmpty || enteredAmount < 0) return;
 
     final capitalizedEnteredTitle = enteredTitle.capitalize();
 
@@ -38,32 +38,43 @@ class _NewTransactionState extends State<NewTransaction> {
           children: [
             TextField(
               decoration: InputDecoration(labelText: 'Title'),
+              style: TextStyle(fontWeight: FontWeight.normal),
               controller: titleInput,
               onSubmitted: (_) => _submitTransaction(),
             ),
             TextField(
-              decoration: InputDecoration(labelText: 'Amount'),
+              decoration: InputDecoration(labelText: 'Amount',),
+              style: TextStyle(fontWeight: FontWeight.normal),
               controller: amountInput,
               keyboardType: TextInputType.number,
               onSubmitted: (_) => _submitTransaction(),
             ),
-            TextButton(
+            SizedBox(
+              height: 70,
+              child: Row(
+                children: [
+                  Text('No Date Chosen!'),
+                  TextButton(
+                    onPressed: () {},
+                    child: Text(
+                      'Choose Date',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+            ElevatedButton(
               onPressed: _submitTransaction,
-              child: Text('Add Transaction'),
-              style: ButtonStyle(
-                foregroundColor: MaterialStateProperty.all(Theme.of(context).primaryColor),
-                overlayColor: MaterialStateProperty.resolveWith<Color?>(
-                  (Set<MaterialState> states) {
-                    if (states.contains(MaterialState.hovered))
-                      return Theme.of(context).primaryColor.withOpacity(0.04);
-                    if (states.contains(MaterialState.focused) ||
-                        states.contains(MaterialState.pressed))
-                      return Theme.of(context).primaryColor.withOpacity(0.12);
-                    return null; // Defer to the widget's default.
-                  },
+              child: Text(
+                'Add Transaction',
+                style: TextStyle(
+                  fontWeight: FontWeight.normal,
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),

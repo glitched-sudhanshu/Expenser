@@ -1,5 +1,8 @@
 import 'package:expense_app/models/transaction.dart';
+import 'package:expense_app/widgets/chart.dart';
+import 'package:expense_app/widgets/chartMap.dart';
 import 'package:expense_app/widgets/new_transaction.dart';
+import 'package:expense_app/widgets/theme.dart';
 import 'package:expense_app/widgets/transaction_list.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -13,12 +16,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Expenser',
-      theme: ThemeData(
-          primarySwatch: Colors.purple,
-          colorScheme: ColorScheme.fromSwatch().copyWith(
-            secondary: Colors.amber,
-            primary: Colors.purple,
-          )),
+      theme: AppTheme.lightTheme(),
       home: HomePage(),
       debugShowCheckedModeBanner: false,
     );
@@ -32,10 +30,19 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final List<Transaction> _userTransactions = [
-    Transaction(
-        id: 't1', title: 'New shoes', amount: 2300, date: DateTime.now()),
-    Transaction(id: 't2', title: 'Grocery', amount: 150, date: DateTime.now()),
+    // Transaction(
+    //     id: 't1', title: 'New shoes', amount: 2300, date: DateTime.now()),
+    // Transaction(id: 't2', title: 'Grocery', amount: 150, date: DateTime.now()),
   ];
+
+
+  List<Transaction> get _recentTransactions{
+    return _userTransactions.where((tx){
+      return tx.date.isAfter(DateTime.now().subtract(
+        Duration(days:7),
+      ),);
+    }).toList();
+  }
 
   void _addNewTransaction(String txTitle, double txAmount) {
     final newTx = Transaction(
@@ -66,7 +73,9 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Expenser'),
+        title: Text(
+          'Expenser',
+        ),
         actions: [
           IconButton(
             onPressed: () => _startAddNewTransaction(context),
@@ -81,14 +90,8 @@ class _HomePageState extends State<HomePage> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            SizedBox(
-                width: double.infinity,
-                child: Card(
-                  color: Colors.lightBlue,
-                  elevation: 5,
-                  child: Text('CHART!'),
-                )),
-            TransactionList(_userTransactions)
+            Chart(_recentTransactions),
+            TransactionList(_userTransactions),
           ],
         ),
       ),
