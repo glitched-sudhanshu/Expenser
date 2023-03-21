@@ -37,7 +37,6 @@ class Chart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // print(groupedTransactionValues);
     return Card(
       elevation: 6,
       margin: EdgeInsets.all(20),
@@ -50,10 +49,13 @@ class Chart extends StatelessWidget {
               Flexible(
               fit: FlexFit.tight,
               child:
-              ChartBar(
-                  data.weekDay,
-                  data.amount,
-                  totalSpending == 0.0 ? 0.0 : (data.amount) / totalSpending),
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                child: ChartBar(
+                    data.weekDay,
+                    data.amount,
+                    totalSpending == 0.0 ? 0.0 : (data.amount) / totalSpending),
+              ),
             );
           }).toList(),
         ),
