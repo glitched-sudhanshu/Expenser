@@ -10,25 +10,29 @@ class TransactionList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+
     return _userTransactions.isEmpty
-        ? Column(
-            children: [
-              Text(
-                'No transactions added yet!',
-                style: Theme.of(context).textTheme.titleLarge,
-              ),
-              SizedBox(
-                height: 25,
-              ),
-              Container(
-                height: 300,
-                child: Image.asset(
-                  'assets/images/waiting.png',
-                  fit: BoxFit.cover,
+        ? LayoutBuilder(builder: (ctx, constraints) {
+            return Column(
+              children: [
+                Text(
+                  'No transactions added yet!',
+                  style: Theme.of(context).textTheme.titleLarge,
                 ),
-              ),
-            ],
-          )
+                SizedBox(
+                  height: 25,
+                ),
+                Container(
+                  height: constraints.maxHeight * 0.6,
+                  child: Image.asset(
+                    'assets/images/waiting.png',
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ],
+            );
+          })
         : ListView.builder(
             itemBuilder: (context, position) {
               Transaction tx = _userTransactions[position];
@@ -57,13 +61,21 @@ class TransactionList extends StatelessWidget {
                   subtitle: Text(
                     DateFormat.yMMMMd().format(tx.date),
                   ),
-                  trailing: IconButton(
-                    icon: Icon(Icons.delete),
-                    color: Theme.of(context).colorScheme.error,
-                    onPressed: () {
-                      _deleteTransactionHandler(tx.id);
-                    },
-                  ),
+                  trailing: MediaQuery.of(context).size.width > 460
+                      ? TextButton.icon(
+                          icon: Icon(Icons.delete, color: Theme.of(context).colorScheme.error,),
+                          onPressed: () {
+                            _deleteTransactionHandler(tx.id);
+                          },
+                          label: Text('Delete', style: TextStyle(color: Theme.of(context).colorScheme.error,),),
+                        )
+                      : IconButton(
+                          icon: Icon(Icons.delete),
+                          color: Theme.of(context).colorScheme.error,
+                          onPressed: () {
+                            _deleteTransactionHandler(tx.id);
+                          },
+                        ),
                 ),
               );
             },

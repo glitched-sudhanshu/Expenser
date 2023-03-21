@@ -57,64 +57,66 @@ class _NewTransactionState extends State<NewTransaction> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 5,
-      child: Container(
-        padding: EdgeInsets.all(10),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            TextField(
-              decoration: InputDecoration(labelText: 'Title'),
-              style: TextStyle(fontWeight: FontWeight.normal),
-              controller: _titleInput,
-              onSubmitted: (_) => _submitTransaction(),
-            ),
-            TextField(
-              decoration: InputDecoration(
-                labelText: 'Amount',
+    return SingleChildScrollView(
+      child: Card(
+        elevation: 5,
+        child: Container(
+          padding: EdgeInsets.only(top: 10, left: 10, right: 10, bottom: MediaQuery.of(context).viewInsets.bottom + 10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              TextField(
+                decoration: InputDecoration(labelText: 'Title'),
+                style: TextStyle(fontWeight: FontWeight.normal),
+                controller: _titleInput,
+                onSubmitted: (_) => _submitTransaction(),
               ),
-              style: TextStyle(fontWeight: FontWeight.normal),
-              controller: _amountInput,
-              keyboardType: TextInputType.number,
-              onSubmitted: (_) => _submitTransaction(),
-            ),
-            SizedBox(
-              height: 70,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    _datePicked == null
-                        ? 'No Date Chosen!'
-                        : 'Picked Date: ${DateFormat.yMd().format(_datePicked!)}',
-                  ),
-                  TextButton(
-                    onPressed: _presentDatePicker,
-                    child: Text(
-                      'Choose Date',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
+              TextField(
+                decoration: InputDecoration(
+                  labelText: 'Amount',
+                ),
+                style: TextStyle(fontWeight: FontWeight.normal),
+                controller: _amountInput,
+                keyboardType: TextInputType.number,
+                onSubmitted: (_) => _submitTransaction(),
+              ),
+              SizedBox(
+                height: 70,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      _datePicked == null
+                          ? 'No Date Chosen!'
+                          : 'Picked Date: ${DateFormat.yMd().format(_datePicked!)}',
                     ),
-                  )
-                ],
-              ),
-            ),
-            ElevatedButton(
-              onPressed: (){
-                print('pressed above');
-                _submitTransaction();
-                print('pressed below');
-              } ,
-              child: Text(
-                'Add Transaction',
-                style: TextStyle(
-                  fontWeight: FontWeight.normal,
+                    TextButton(
+                      onPressed: _presentDatePicker,
+                      child: Text(
+                        'Choose Date',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    )
+                  ],
                 ),
               ),
-            ),
-          ],
+              ElevatedButton(
+                onPressed: (){
+                  print('pressed above');
+                  _submitTransaction();
+                  print('pressed below');
+                } ,
+                child: Text(
+                  'Add Transaction',
+                  style: TextStyle(
+                    fontWeight: FontWeight.normal,
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
